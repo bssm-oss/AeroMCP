@@ -18,6 +18,9 @@ dev = [
     "respx>=0.21.0",
 ]
 
+[project.scripts]
+interpark-mcp = "interpark_mcp.mcp.server:main"
+
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]
