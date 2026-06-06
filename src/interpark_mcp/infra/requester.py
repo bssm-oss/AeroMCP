@@ -91,6 +91,7 @@ class InterparkRequester(FlightSearcher):
         )
         for _ in range(POLL_MAX_ATTEMPTS):
             resp = await client.get(url)
+            resp.raise_for_status()
             if resp.json().get("status") != "PENDING":
                 return
             await asyncio.sleep(POLL_INTERVAL_SECONDS)
