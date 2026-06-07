@@ -35,6 +35,48 @@ def _flight_to_dict(flight: Flight) -> dict:
     }
 
 
+_CARRIER_NAMES: dict[str, str] = {
+    "KE": "대한항공",
+    "OZ": "아시아나항공",
+    "7C": "제주항공",
+    "LJ": "진에어",
+    "BX": "에어부산",
+    "TW": "티웨이항공",
+    "ZE": "이스타항공",
+    "RS": "에어서울",
+    "4V": "플라이강원",
+    "YP": "에어프레미아",
+}
+
+_AIRPORT_NAMES: dict[str, str] = {
+    "SEL": "서울 (도시코드, GMP+ICN)",
+    "GMP": "서울/김포",
+    "ICN": "서울/인천",
+    "CJU": "제주",
+    "PUS": "부산/김해",
+    "KWJ": "광주",
+    "MWX": "무안",
+    "KUV": "군산",
+    "TAE": "대구",
+    "HIN": "진주/사천",
+    "RSU": "여수",
+    "USN": "울산",
+    "WJU": "원주",
+    "CJJ": "청주",
+    "KPO": "포항",
+    "YNY": "양양",
+}
+
+
+def _build_metadata(flights: list[dict]) -> dict:
+    carriers = sorted({f["carrier"] for f in flights})
+    airports = sorted({f["departure"] for f in flights} | {f["arrival"] for f in flights})
+    return {
+        "carriers": {c: _CARRIER_NAMES.get(c, c) for c in carriers},
+        "airports": {a: _AIRPORT_NAMES.get(a, a) for a in airports},
+    }
+
+
 def _time_slot(hour: int) -> str:
     if hour < 6:
         return "dawn"
@@ -116,4 +158,5 @@ async def search_domestic_flights(
     return {
         "result": flight_dicts,
         "analysis": _analyze(flight_dicts),
+        "metadata": _build_metadata(flight_dicts),
     }
