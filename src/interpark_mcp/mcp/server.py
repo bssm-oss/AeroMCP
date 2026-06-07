@@ -15,8 +15,8 @@ async def search_domestic_flights(
     adult: int = 1,
     child: int = 0,
     infant: int = 0,
-) -> list[dict]:
-    """국내선 항공권 검색.
+) -> dict:
+    """국내선 항공권 검색 및 분석.
 
     Args:
         origin: 출발 IATA 코드 (예: GMP, SEL)

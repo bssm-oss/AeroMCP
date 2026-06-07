@@ -46,16 +46,21 @@ async def test_search_domestic_flights_returns_formatted_list():
         requester=mock_searcher,
     )
 
-    assert len(result) == 1
-    assert result[0]["id"] == "TW0933L"
-    assert result[0]["total_price"] == 68900
-    assert result[0]["departure"] == "GMP"
-    assert result[0]["departure_at"] == "2026-06-20T11:50:00"
+    flights = result["result"]
+    analysis = result["analysis"]
+    assert len(flights) == 1
+    assert flights[0]["id"] == "TW0933L"
+    assert flights[0]["total_price"] == 68900
+    assert flights[0]["departure"] == "GMP"
+    assert flights[0]["departure_at"] == "2026-06-20T11:50:00"
     mock_searcher.search_domestic.assert_called_once_with(
         origin="GMP", destination="CJU",
         departure_date=date(2026, 6, 20),
         return_date=None, adult=1, child=0, infant=0,
     )
+    assert analysis["by_time_slot"]["morning"]["count"] == 1
+    assert analysis["by_time_slot"]["morning"]["min_price"] == 68900
+    assert analysis["by_airline"]["TW"]["count"] == 1
 
 
 @pytest.mark.asyncio
@@ -68,4 +73,5 @@ async def test_search_domestic_flights_empty():
         departure_date="2026-06-20",
         requester=mock_searcher,
     )
-    assert result == []
+    assert result["result"] == []
+    assert result["analysis"] == {"by_time_slot": {}, "by_airline": {}}

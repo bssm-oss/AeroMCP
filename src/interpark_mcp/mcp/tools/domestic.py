@@ -1,4 +1,5 @@
 # src/interpark_mcp/mcp/tools/domestic.py
+from collections import defaultdict
 from datetime import date
 from interpark_mcp.core.interfaces import FlightSearcher
 from interpark_mcp.core.models import Flight
@@ -34,6 +35,50 @@ def _flight_to_dict(flight: Flight) -> dict:
     }
 
 
+def _time_slot(hour: int) -> str:
+    if hour < 6:
+        return "dawn"
+    if hour < 12:
+        return "morning"
+    if hour < 18:
+        return "afternoon"
+    return "evening"
+
+
+def _analyze(flights: list[dict]) -> dict:
+    by_slot: dict[str, list[int]] = defaultdict(list)
+    by_airline: dict[str, list[int]] = defaultdict(list)
+
+    for f in flights:
+        price = f["total_price"]
+        if price is None:
+            continue
+        hour = int(f["departure_at"][11:13])
+        by_slot[_time_slot(hour)].append(price)
+        by_airline[f["carrier"]].append(price)
+
+    def summarize(prices: list[int]) -> dict:
+        return {
+            "count": len(prices),
+            "avg_price": round(sum(prices) / len(prices)),
+            "min_price": min(prices),
+            "max_price": max(prices),
+        }
+
+    slot_order = ["dawn", "morning", "afternoon", "evening"]
+    return {
+        "by_time_slot": {
+            slot: summarize(by_slot[slot])
+            for slot in slot_order
+            if slot in by_slot
+        },
+        "by_airline": {
+            carrier: summarize(prices)
+            for carrier, prices in sorted(by_airline.items())
+        },
+    }
+
+
 async def search_domestic_flights(
     origin: str,
     destination: str,
@@ -43,8 +88,8 @@ async def search_domestic_flights(
     child: int = 0,
     infant: int = 0,
     requester: FlightSearcher = get_requester(),
-) -> list[dict]:
-    """국내선 항공권 검색.
+) -> dict:
+    """국내선 항공권 검색 및 분석.
 
     Args:
         origin: 출발 IATA 코드 (예: GMP, SEL)
@@ -67,4 +112,8 @@ async def search_domestic_flights(
         child=child,
         infant=infant,
     )
-    return [_flight_to_dict(f) for f in flights]
+    flight_dicts = [_flight_to_dict(f) for f in flights]
+    return {
+        "result": flight_dicts,
+        "analysis": _analyze(flight_dicts),
+    }
