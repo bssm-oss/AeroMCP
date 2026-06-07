@@ -1,6 +1,6 @@
-# src/interpark_mcp/common/config.py
+# src/aeromcp/common/config.py
 
-INTERPARK_BASE_URL = "https://travel.interpark.com"
+BASE_URL = "https://travel.interpark.com"
 
 BROWSER_HEADERS = {
     "User-Agent": (
@@ -10,7 +10,7 @@ BROWSER_HEADERS = {
     ),
     "Accept": "*/*",
     "Accept-Language": "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7",
-    "Referer": f"{INTERPARK_BASE_URL}/air",
+    "Referer": f"{BASE_URL}/air",
 }
 
 # 국내 도시코드 → c: prefix 사용. 나머지는 a: prefix.

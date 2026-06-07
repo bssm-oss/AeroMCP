@@ -3,8 +3,8 @@ import pytest
 import respx
 import httpx
 from datetime import date
-from interpark_mcp.infra.requester import InterparkRequester
-from interpark_mcp.infra import build_id as build_id_module
+from aeromcp.infra.requester import AirRequester
+from aeromcp.infra import build_id as build_id_module
 
 FAKE_SSR_RESPONSE = {
     "pageProps": {
@@ -68,7 +68,7 @@ async def test_search_domestic_one_way():
             "/search/DOMESTIC::test-uuid-1234"
         ).mock(return_value=httpx.Response(200, json={"items": FAKE_ITEMS}))
 
-        searcher = InterparkRequester()
+        searcher = AirRequester()
         flights = await searcher.search_domestic(
             origin="GMP", destination="CJU", departure_date=date(2026, 6, 20)
         )

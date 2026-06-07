@@ -1,6 +1,6 @@
 # tests/core/test_models.py
 from datetime import datetime, timedelta, date
-from interpark_mcp.core.models import (
+from aeromcp.core.models import (
     Baggage, Schedule, CardCashback, Benefit, PassengerFare, Fare, Flight
 )
 

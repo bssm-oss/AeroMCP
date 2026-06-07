@@ -2,7 +2,7 @@
 import pytest
 import respx
 import httpx
-from interpark_mcp.infra.build_id import extract_build_id, get_build_id, _cache
+from aeromcp.infra.build_id import extract_build_id, get_build_id, _cache
 
 
 FAKE_HTML = """

@@ -1,8 +1,8 @@
-# src/interpark_mcp/infra/build_id.py
+# src/aeromcp/infra/build_id.py
 import json
 import re
 import httpx
-from interpark_mcp.common.config import INTERPARK_BASE_URL
+from aeromcp.common.config import BASE_URL
 
 _cache: dict[str, str] = {}
 
@@ -21,7 +21,7 @@ def extract_build_id(html: str) -> str:
 async def get_build_id(client: httpx.AsyncClient) -> str:
     if cached := _cache.get("build_id"):
         return cached
-    resp = await client.get(f"{INTERPARK_BASE_URL}/air")
+    resp = await client.get(f"{BASE_URL}/air")
     resp.raise_for_status()
     build_id = extract_build_id(resp.text)
     _cache["build_id"] = build_id

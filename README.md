@@ -33,7 +33,7 @@ pip install aeromcp
 git clone https://github.com/bssm-oss/AeroMCP.git
 cd AeroMCP
 pip install -e .
-interpark-mcp
+aeromcp
 ```
 
 ## MCP 클라이언트 설정
@@ -59,7 +59,7 @@ pip 설치 시:
 {
   "mcpServers": {
     "aeromcp": {
-      "command": "interpark-mcp"
+      "command": "aeromcp"
     }
   }
 }

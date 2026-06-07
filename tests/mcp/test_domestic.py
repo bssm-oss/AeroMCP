@@ -2,8 +2,8 @@
 from datetime import date, datetime, timedelta
 from unittest.mock import AsyncMock
 import pytest
-from interpark_mcp.core.models import Flight, Fare, PassengerFare, Schedule, Baggage
-from interpark_mcp.mcp.tools.domestic import search_domestic_flights
+from aeromcp.core.models import Flight, Fare, PassengerFare, Schedule, Baggage
+from aeromcp.mcp.tools.domestic import search_domestic_flights
 
 
 def make_fake_flight() -> Flight:

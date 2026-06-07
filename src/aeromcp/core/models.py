@@ -1,4 +1,4 @@
-# src/interpark_mcp/core/models.py
+# src/aeromcp/core/models.py
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 

@@ -1,7 +1,7 @@
 # tests/core/test_interfaces.py
 from datetime import date
-from interpark_mcp.core.interfaces import FlightSearcher
-from interpark_mcp.core.models import Flight
+from aeromcp.core.interfaces import FlightSearcher
+from aeromcp.core.models import Flight
 
 
 def test_flight_searcher_is_abstract():

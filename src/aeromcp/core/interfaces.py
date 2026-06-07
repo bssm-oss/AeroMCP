@@ -1,7 +1,7 @@
-# src/interpark_mcp/core/interfaces.py
+# src/aeromcp/core/interfaces.py
 from abc import ABC, abstractmethod
 from datetime import date
-from interpark_mcp.core.models import Flight
+from aeromcp.core.models import Flight
 
 
 class FlightSearcher(ABC):

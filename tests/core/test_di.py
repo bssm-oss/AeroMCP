@@ -1,7 +1,7 @@
 # tests/core/test_di.py
-from interpark_mcp.dependencies.requester import get_requester
-from interpark_mcp.core.interfaces import FlightSearcher
-from interpark_mcp.infra.requester import InterparkRequester
+from aeromcp.dependencies.requester import get_requester
+from aeromcp.core.interfaces import FlightSearcher
+from aeromcp.infra.requester import AirRequester
 
 
 def test_get_requester_returns_flight_searcher():
@@ -9,6 +9,6 @@ def test_get_requester_returns_flight_searcher():
     assert isinstance(requester, FlightSearcher)
 
 
-def test_get_requester_returns_interpark_implementation():
+def test_get_requester_returns_air_implementation():
     requester = get_requester()
-    assert isinstance(requester, InterparkRequester)
+    assert isinstance(requester, AirRequester)

@@ -1,7 +1,7 @@
-# src/interpark_mcp/infra/parser.py
+# src/aeromcp/infra/parser.py
 import re
 from datetime import datetime, timedelta
-from interpark_mcp.core.models import (
+from aeromcp.core.models import (
     Baggage, Schedule, CardCashback, Benefit, PassengerFare, Fare, Flight,
 )
 

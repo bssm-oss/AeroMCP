@@ -1,16 +1,16 @@
-# src/interpark_mcp/infra/requester.py
+# src/aeromcp/infra/requester.py
 import asyncio
 from datetime import date
 import httpx
-from interpark_mcp.common.config import (
-    INTERPARK_BASE_URL, BROWSER_HEADERS,
+from aeromcp.common.config import (
+    BASE_URL, BROWSER_HEADERS,
     POLL_MAX_ATTEMPTS, POLL_INTERVAL_SECONDS,
     DOMESTIC_CITY_CODES,
 )
-from interpark_mcp.core.interfaces import FlightSearcher
-from interpark_mcp.core.models import Flight
-from interpark_mcp.infra.build_id import get_build_id, invalidate_build_id_cache
-from interpark_mcp.infra.parser import parse_flight
+from aeromcp.core.interfaces import FlightSearcher
+from aeromcp.core.models import Flight
+from aeromcp.infra.build_id import get_build_id, invalidate_build_id_cache
+from aeromcp.infra.parser import parse_flight
 
 
 def _location_prefix(code: str) -> str:
@@ -29,7 +29,7 @@ def _build_return_segment(origin: str, destination: str, ret_date: date) -> str:
     return f"{o_prefix}:{destination}-{d_prefix}:{origin}-{ret_date.strftime('%Y%m%d')}"
 
 
-class InterparkRequester(FlightSearcher):
+class AirRequester(FlightSearcher):
     async def search_domestic(
         self,
         origin: str,
@@ -62,7 +62,7 @@ class InterparkRequester(FlightSearcher):
         build_id = await get_build_id(client)
 
         url = (
-            f"{INTERPARK_BASE_URL}/air/_next/data/{build_id}"
+            f"{BASE_URL}/air/_next/data/{build_id}"
             f"/search/{routes_path}.json"
         )
         params = [("cabin", "ALL"), ("adult", adult), ("child", child), ("infant", infant)]
@@ -75,7 +75,7 @@ class InterparkRequester(FlightSearcher):
             invalidate_build_id_cache()
             build_id = await get_build_id(client)
             url = (
-                f"{INTERPARK_BASE_URL}/air/_next/data/{build_id}"
+                f"{BASE_URL}/air/_next/data/{build_id}"
                 f"/search/{routes_path}.json"
             )
             resp = await client.get(url, params=params)
@@ -86,7 +86,7 @@ class InterparkRequester(FlightSearcher):
 
     async def _wait_ready(self, client: httpx.AsyncClient, search_key: str) -> None:
         url = (
-            f"{INTERPARK_BASE_URL}/air/air-api/inpark-air-web-api"
+            f"{BASE_URL}/air/air-api/inpark-air-web-api"
             f"/domestic/flights/search/{search_key}/status"
         )
         for _ in range(POLL_MAX_ATTEMPTS):
@@ -99,7 +99,7 @@ class InterparkRequester(FlightSearcher):
 
     async def _fetch_results(self, client: httpx.AsyncClient, search_key: str) -> list[Flight]:
         url = (
-            f"{INTERPARK_BASE_URL}/air/air-api/inpark-air-web-api"
+            f"{BASE_URL}/air/air-api/inpark-air-web-api"
             f"/domestic/flights/search/{search_key}"
         )
         body = {

@@ -1,6 +1,6 @@
 # tests/infra/test_parser.py
 from datetime import datetime, timedelta
-from interpark_mcp.infra.parser import parse_flight, parse_iso_duration
+from aeromcp.infra.parser import parse_flight, parse_iso_duration
 
 RAW_FLIGHT = {
     "id": "TW0933L",

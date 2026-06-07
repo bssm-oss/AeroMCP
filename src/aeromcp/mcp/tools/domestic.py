@@ -1,9 +1,9 @@
-# src/interpark_mcp/mcp/tools/domestic.py
+# src/aeromcp/mcp/tools/domestic.py
 from collections import defaultdict
 from datetime import date
-from interpark_mcp.core.interfaces import FlightSearcher
-from interpark_mcp.core.models import Flight
-from interpark_mcp.dependencies.requester import get_requester
+from aeromcp.core.interfaces import FlightSearcher
+from aeromcp.core.models import Flight
+from aeromcp.dependencies.requester import get_requester
 
 
 def _flight_to_dict(flight: Flight) -> dict:

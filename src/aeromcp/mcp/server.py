@@ -1,9 +1,9 @@
-# src/interpark_mcp/mcp/server.py
+# src/aeromcp/mcp/server.py
 from fastmcp import FastMCP
-from interpark_mcp.mcp.banner import BANNER
-from interpark_mcp.mcp.tools.domestic import search_domestic_flights as _search_impl
+from aeromcp.mcp.banner import BANNER
+from aeromcp.mcp.tools.domestic import search_domestic_flights as _search_impl
 
-mcp = FastMCP("interpark-mcp")
+mcp = FastMCP("aeromcp")
 
 
 @mcp.tool()
