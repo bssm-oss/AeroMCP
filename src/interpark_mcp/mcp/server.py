@@ -9,4 +9,4 @@ mcp.tool(exclude_args=["requester"])(search_domestic_flights)
 
 def main() -> None:
     print(BANNER, flush=True)
-    mcp.run()
+    mcp.run(show_banner=False)
