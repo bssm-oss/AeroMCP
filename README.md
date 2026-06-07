@@ -169,7 +169,7 @@ pip 설치 시:
 ```
 mcp/          - FastMCP 도구 정의
 core/         - 도메인 모델 (dataclass), 추상 인터페이스
-infra/        - 인터파크 API 호출 구현체
+infra/        - 항공 API 호출 구현체
 common/       - 설정 상수, 브라우저 헤더
 dependencies/ - 의존성 주입 팩토리
 ```
