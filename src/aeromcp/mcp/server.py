@@ -15,6 +15,8 @@ async def search_domestic_flights(
     adult: int = 1,
     child: int = 0,
     infant: int = 0,
+    cabin: str | None = None,
+    airlines: list[str] | None = None,
 ) -> dict:
     """국내선 항공권 검색 및 분석.
 
@@ -26,6 +28,8 @@ async def search_domestic_flights(
         adult: 성인 수 (기본 1)
         child: 소아 수 (기본 0)
         infant: 유아 수 (기본 0)
+        cabin: 좌석 등급 필터 - ECONOMY 또는 BUSINESS (기본 None=전체)
+        airlines: 항공사 필터 - IATA 코드 목록 예: ["BX", "TW"] (기본 None=전체)
     """
     return await _search_impl(
         origin=origin,
@@ -35,6 +39,8 @@ async def search_domestic_flights(
         adult=adult,
         child=child,
         infant=infant,
+        cabin=cabin,
+        airlines=airlines,
     )
 
 

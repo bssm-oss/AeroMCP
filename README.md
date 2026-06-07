@@ -80,6 +80,8 @@ pip 설치 시:
 | `adult` | int | | 성인 수 (기본값 1) |
 | `child` | int | | 소아 수 (기본값 0) |
 | `infant` | int | | 유아 수 (기본값 0) |
+| `cabin` | string | | 좌석 등급 필터 - `ECONOMY` 또는 `BUSINESS` (기본값 null=전체) |
+| `airlines` | string[] | | 항공사 필터 - IATA 코드 목록 예: `["BX","TW"]` (기본값 null=전체) |
 
 **응답 구조:**
 

@@ -57,6 +57,7 @@ async def test_search_domestic_flights_returns_formatted_list():
         origin="GMP", destination="CJU",
         departure_date=date(2026, 6, 20),
         return_date=None, adult=1, child=0, infant=0,
+        cabin=None, airlines=None,
     )
     assert analysis["by_time_slot"]["morning"]["count"] == 1
     assert analysis["by_time_slot"]["morning"]["min_price"] == 68900

@@ -15,5 +15,7 @@ class FlightSearcher(ABC):
         adult: int = 1,
         child: int = 0,
         infant: int = 0,
+        cabin: str | None = None,
+        airlines: list[str] | None = None,
     ) -> list[Flight]:
         ...

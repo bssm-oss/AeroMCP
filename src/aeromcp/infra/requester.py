@@ -39,13 +39,15 @@ class AirRequester(FlightSearcher):
         adult: int = 1,
         child: int = 0,
         infant: int = 0,
+        cabin: str | None = None,
+        airlines: list[str] | None = None,
     ) -> list[Flight]:
         async with httpx.AsyncClient(headers=BROWSER_HEADERS, timeout=30.0) as client:
             search_key = await self._get_search_key(
                 client, origin, destination, departure_date, return_date, adult, child, infant
             )
             await self._wait_ready(client, search_key)
-            return await self._fetch_results(client, search_key)
+            return await self._fetch_results(client, search_key, cabin=cabin, airlines=airlines)
 
     async def _get_search_key(
         self, client: httpx.AsyncClient,
@@ -97,7 +99,13 @@ class AirRequester(FlightSearcher):
             await asyncio.sleep(POLL_INTERVAL_SECONDS)
         raise TimeoutError(f"Search {search_key} did not complete in time")
 
-    async def _fetch_results(self, client: httpx.AsyncClient, search_key: str) -> list[Flight]:
+    async def _fetch_results(
+        self,
+        client: httpx.AsyncClient,
+        search_key: str,
+        cabin: str | None = None,
+        airlines: list[str] | None = None,
+    ) -> list[Flight]:
         url = (
             f"{BASE_URL}/air/air-api/inpark-air-web-api"
             f"/domestic/flights/search/{search_key}"
@@ -106,11 +114,11 @@ class AirRequester(FlightSearcher):
             "pageNumber": 1,
             "pageSize": 20,
             "filter": {
-                "byAirline": None,
+                "byAirline": airlines,
                 "byDepartureTimes": None,
                 "byPaymentMethods": None,
                 "byDiscountTypes": None,
-                "byCabins": None,
+                "byCabins": [cabin] if cabin else None,
             },
         }
         resp = await client.post(url, json=body)
