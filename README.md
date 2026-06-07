@@ -145,6 +145,39 @@ pip 설치 시:
 | `afternoon` | 12:00 – 17:59 |
 | `evening` | 18:00 – 23:59 |
 
+### `find_cheapest_roundtrip`
+
+왕복 편도를 각각 검색 후 최저가 조합을 반환합니다.
+
+| 파라미터 | 타입 | 필수 | 설명 |
+|---------|------|------|------|
+| `origin` | string | ✓ | 출발 IATA 코드 |
+| `destination` | string | ✓ | 도착 IATA 코드 |
+| `departure_date` | string | ✓ | 출발일 `YYYY-MM-DD` |
+| `return_date` | string | ✓ | 귀국일 `YYYY-MM-DD` |
+| `adult` | int | | 성인 수 (기본값 1) |
+| `child` | int | | 소아 수 (기본값 0) |
+| `infant` | int | | 유아 수 (기본값 0) |
+| `cabin` | string | | 좌석 등급 필터 - `ECONOMY` 또는 `BUSINESS` (기본값 null=전체) |
+| `airlines` | string[] | | 항공사 필터 - IATA 코드 목록 (기본값 null=전체) |
+| `top_n` | int | | 반환할 최저가 조합 수 (기본값 5) |
+
+**응답 구조:**
+
+```json
+{
+  "combinations": [
+    {
+      "total_price": 155000,
+      "outbound": { "id": "BX8816", "departure_at": "2026-07-01T09:00:00", "total_price": 80000, "...": "..." },
+      "inbound":  { "id": "BX8806", "departure_at": "2026-07-05T10:00:00", "total_price": 75000, "...": "..." }
+    }
+  ],
+  "outbound_flights": [...],
+  "inbound_flights": [...]
+}
+```
+
 ## 공항 코드
 
 | 코드 | 도시/공항 | 비고 |
