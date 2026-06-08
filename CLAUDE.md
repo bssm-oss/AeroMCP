@@ -21,26 +21,39 @@ dependencies/ - 컴포지트 루트. 함수 기반 의존성 주입 팩토리
 
 ## 의존성 주입 컨벤션
 
-`dependencies/`에 팩토리 함수 정의, 기본값으로 주입:
+`dependencies/`에 팩토리 함수 + `Annotated[추상타입, Depends(팩토리)]` 별칭 정의 (fastmcp DI, `uncalled_for.Depends` 기반):
 
 ```python
 # dependencies/requester.py
-def get_requester() -> Requester:
-    return InterparkRequester()
+from typing import Annotated
+from uncalled_for import Depends
+from aeromcp.core.interfaces import FlightSearcher as _FlightSearcher
+from aeromcp.infra.requester import AirRequester
+
+
+def get_requester() -> _FlightSearcher:
+    return AirRequester()
+
+
+FlightSearcher = Annotated[_FlightSearcher, Depends(get_requester)]
 
 # mcp/tools/search.py
+from aeromcp.dependencies.requester import FlightSearcher
+
 async def search_flights(
     origin: str,
     destination: str,
     date: str,
-    requester: Requester = get_requester(),
+    requester: FlightSearcher,
 ) -> list[Flight]:
     ...
 ```
 
-- 기본값이 구체 구현체 바인딩 → 호출 측은 core 추상 타입만 앎
-- 테스트 시 인자로 mock 주입 가능
+- 별칭이 구체 구현체 바인딩 → 호출 측은 core 추상 타입만 앎 (단, import는 `dependencies`에서)
+- fastmcp가 tool 스키마에서 `requester` 자동 제외, 호출 시 `Depends` 통해 주입
+- 직접 호출(테스트 등) 시엔 fastmcp 컨텍스트 밖이라 기본값 없음 → `requester=mock` 명시 필수
 - `get_*` 함수는 순수 팩토리. 상태 없음, 매번 새 인스턴스 또는 싱글턴 반환
+- 시그니처 순서 주의: `requester`는 기본값 없는 파라미터이므로 기본값 있는 파라미터들보다 앞에 위치해야 함 (Python 문법 제약)
 
 ## 인터파크 API 플로우 (국내선)
 

@@ -1,8 +1,7 @@
 # src/aeromcp/mcp/tools/roundtrip.py
 import asyncio
 from datetime import date
-from aeromcp.core.interfaces import FlightSearcher
-from aeromcp.dependencies.requester import get_requester
+from aeromcp.dependencies.requester import FlightSearcher
 from aeromcp.mcp.tools.domestic import _flight_to_dict
 
 
@@ -11,13 +10,13 @@ async def find_cheapest_roundtrip(
     destination: str,
     departure_date: str,
     return_date: str,
+    requester: FlightSearcher,
     adult: int = 1,
     child: int = 0,
     infant: int = 0,
     cabin: str | None = None,
     airlines: list[str] | None = None,
     top_n: int = 5,
-    requester: FlightSearcher = get_requester(),
 ) -> dict:
     """왕복 최저가 조합 탐색.
 

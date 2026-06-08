@@ -1,9 +1,8 @@
 # src/aeromcp/mcp/tools/domestic.py
 from collections import defaultdict
 from datetime import date
-from aeromcp.core.interfaces import FlightSearcher
 from aeromcp.core.models import Flight
-from aeromcp.dependencies.requester import get_requester
+from aeromcp.dependencies.requester import FlightSearcher
 
 
 def _flight_to_dict(flight: Flight) -> dict:
@@ -125,13 +124,13 @@ async def search_domestic_flights(
     origin: str,
     destination: str,
     departure_date: str,
+    requester: FlightSearcher,
     return_date: str | None = None,
     adult: int = 1,
     child: int = 0,
     infant: int = 0,
     cabin: str | None = None,
     airlines: list[str] | None = None,
-    requester: FlightSearcher = get_requester(),
 ) -> dict:
     """국내선 항공권 검색 및 분석.
 

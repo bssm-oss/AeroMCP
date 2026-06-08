@@ -4,11 +4,12 @@ requires-python = ">=3.11"
 
 [[package]]
 name = "aeromcp"
-version = "0.2.0"
+version = "0.2.6"
 source = { editable = "." }
 dependencies = [
     { name = "fastmcp" },
     { name = "httpx" },
+    { name = "uncalled-for" },
 ]
 
 [package.optional-dependencies]
@@ -25,6 +26,7 @@ requires-dist = [
     { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.0.0" },
     { name = "pytest-asyncio", marker = "extra == 'dev'", specifier = ">=0.23.0" },
     { name = "respx", marker = "extra == 'dev'", specifier = ">=0.21.0" },
+    { name = "uncalled-for", specifier = ">=0.3.2" },
 ]
 provides-extras = ["dev"]
 
